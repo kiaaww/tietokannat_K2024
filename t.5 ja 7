@@ -17,3 +17,6 @@ SELECT first_name, last_name, salary FROM employees.employees JOIN employees.sal
 SELECT count(*) FROM employees.dept_emp JOIN employees.employees ON dept_emp.emp_no=employees.emp_no WHERE dept_no='d007' OR dept_no='d001';
 SELECT first_name, last_name, dept_name FROM employees.dept_manager JOIN employees.departments ON dept_manager.dept_no=departments.dept_no JOIN employees.employees ON dept_manager.emp_no=employees.emp_no;
 SELECT avg(salary) FROM employees.salaries JOIN employees.dept_emp ON salaries.emp_no=dept_emp.emp_no WHERE dept_no='d007' OR dept_no='d001';
+
+riviin 17 ja 19 olisi myös mahdollista lisätä toinen JOIN johon sisältyisi:
+JOIN employees.depertments jossa ON dept_emp.dept_no=departments.dept_no WHERE name='Sales' OR name='Marketing'
