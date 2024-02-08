@@ -1,0 +1,38 @@
+CREATE DEFINER=`root`@`localhost` PROCEDURE `LisaaSuoritus`(IN Etunim VARCHAR(45), 
+IN Sukunim VARCHAR(45), 
+IN Koodi_ VARCHAR(45), 
+IN Arvosana TINYINT)
+
+Aliohjelma: BEGIN
+	DECLARE OpiskelijaID INT DEFAULT 0;
+    DECLARE OpintojaksoID INT DEFAULT 0;
+    
+SELECT idOpiskelija INTO OpiskelijaID FROM opiskelija
+WHERE Etunimi = Etunim AND Sukunimi = Sukunim
+LIMIT 1;
+
+IF OpiskelijaID = 0 THEN 
+	SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Opiskelijaa ei löydy';
+    LEAVE Aliohjelma;
+END IF;
+
+SELECT idOpintojakso INTO OpintojaksoID FROM Opintojakso
+WHERE Koodi = Koodi_
+LIMIT 1;
+
+IF OpintojaksoID = 0 THEN 
+	SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Opintojaksoa ei löydy';
+    LEAVE Aliohjelma;
+END IF;
+
+IF Arvosana < 0 OR Arvosana > 5 THEN
+	SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Arvosanan tulee olla välillä 0-5';
+    END IF;
+    
+INSERT INTO Arviointi VALUES(NULL,CURDATE(),Arvosana,OpiskelijaID,OpintojaksoID);
+SELECT 'Opintosuoritus lisätty onnistuneesti' AS Result;
+
+END
