@@ -19,7 +19,7 @@ const opintojakso = {
   },
   update: function(id, updatedopintojakso, callback) {
     return db.query(
-      'update opintojakso set idOpintojakso=?,koodi=?,laajuus=?, nimi=? where id_Opintojakso=?',
+      'update opintojakso set idOpintojakso=?,koodi=?,laajuus=?, nimi=? where idOpintojakso=?',
       [updatedopintojakso.idOpintojakso, updatedopintojakso.koodi, updatedopintojakso.laajuus, updatedopintojakso.nimi, id],
       callback
     );
